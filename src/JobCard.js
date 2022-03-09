@@ -11,9 +11,15 @@ import React from "react";
  */
 
 function JobCard({ job }) {
-    
+
     return (
-        <p>JobCard Component</p>
+        <div>
+            <h3> {job.title} </h3>
+            {job.companyName && <h4>{job.companyName}</h4>}
+            <p>Salary: ${job.salary.toLocaleString()}</p>
+            <p>Equity: {job.equity}</p>
+            
+        </div>
     );
 }
 

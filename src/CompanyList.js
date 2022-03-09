@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SearchForm from "./SearchForm";
 import CompanyCard from "./CompanyCard";
-import axios from "axios";
+import { Link } from "react-router-dom";
 import JoblyApi from "./api";
 
 /**
@@ -34,18 +34,19 @@ function CompanyList() {
 
   if (isLoading) return <h1><i>Loading Companies...</i></h1>
 
-  
+
   //Map over state, display company card for each
   return (
     <div>
       <SearchForm />
-      <p>All Company List</p>
       <ul className="CompanyCardList">
         {companies.map(comp => {
           return (
-            <li key={comp.handle}>
-              <CompanyCard company={comp} />
-            </li>)
+            <Link exact to={`/companies/${comp.handle}`} >
+              <li key={comp.handle}>
+                <CompanyCard company={comp} />
+              </li>
+            </Link>)
         })
         }
       </ul>

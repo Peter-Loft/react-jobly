@@ -1,4 +1,5 @@
 import React from "react";
+import './CompanyCard.css';
 
 /**
  * Single company card, displays company details

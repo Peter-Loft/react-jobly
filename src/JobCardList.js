@@ -4,21 +4,27 @@ import JobCard from "./JobCard";
 /**
  * Displays list of all jobs
  * 
- * Props - [listOfJobs]
+ * Props - {jobs}, a list of jobs
  * 
  * State - None
  * 
  * JobList, CompanyDetail --> JobCardList --> JobCard
  */
 
-function JobCardList() {
+function JobCardList({ jobs }) {
     console.log("JobCardList Rendered");
+
     return (
         <div>
-            <p>All Job List</p>
-            <ul>
-                <li><JobCard /></li>
-                <li><JobCard /></li>
+            <ul className="JobCardList">
+                {jobs.map(job => {
+                    return (
+                        <li key={job.id}>
+                            <JobCard job={job} />
+                        </li>
+                    )
+                })}
+
             </ul>
         </div>
     )

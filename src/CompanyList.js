@@ -22,13 +22,21 @@ function CompanyList() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(function fetchCompaniesWhenMounted() {
-    async function fetchCompanies() {
+    async function _fetchCompanies() {
       const result = await JoblyApi.getCompanies();
       setCompanies(result);
       setIsLoading(false);
     }
-    fetchCompanies();
+    _fetchCompanies();
   }, []);
+
+  function handleSubmit(term) {
+    async function _fetchCompanies() {
+      const result = await JoblyApi.companiesSearch(term);
+      setCompanies(result);
+    }
+    _fetchCompanies();
+  }
 
   // Makes axios call to get list of company on render
 
@@ -38,12 +46,14 @@ function CompanyList() {
   //Map over state, display company card for each
   return (
     <div>
-      <SearchForm />
+      <SearchForm handleSubmit={handleSubmit} />
       <ul className="CompanyCardList">
         {companies.map(comp => {
           return (
-            <Link exact to={`/companies/${comp.handle}`} >
-              <li key={comp.handle}>
+            <Link
+              to={`/companies/${comp.handle}`}
+              key={comp.handle} >
+              <li >
                 <CompanyCard company={comp} />
               </li>
             </Link>)

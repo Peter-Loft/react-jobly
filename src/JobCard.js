@@ -16,9 +16,9 @@ function JobCard({ job }) {
         <div>
             <h3> {job.title} </h3>
             {job.companyName && <h4>{job.companyName}</h4>}
-            <p>Salary: ${job.salary.toLocaleString()}</p>
+            {job.salary && <p>Salary: ${job.salary.toLocaleString()}</p>}
             <p>Equity: {job.equity}</p>
-            
+
         </div>
     );
 }

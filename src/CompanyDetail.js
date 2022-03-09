@@ -15,7 +15,7 @@ import JoblyApi from "./api";
 
 function CompanyDetail() {
     console.log("CompanyDetail Rendered");
-    
+
     const params = useParams(); //company handle
 
     const [companyDetails, setCompanyDetails] = useState(null);
@@ -31,12 +31,12 @@ function CompanyDetail() {
     }, []);
 
     if (isLoading) return <h1><i>Loading Companies...</i></h1>
-    
+
     return (
         <div>
             <h1>{companyDetails.name}</h1>
             <i>{companyDetails.description}</i>
-            <JobCardList jobs={companyDetails.jobs}/>
+            <JobCardList jobs={companyDetails.jobs} />
         </div>
     );
 }

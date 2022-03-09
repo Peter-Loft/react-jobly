@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom"
 // TODO: add css.
 
 function Nav() {
+  
   return (
     <nav>
       <NavLink exact to="/">Jobly</NavLink>

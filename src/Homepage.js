@@ -11,7 +11,7 @@ import React from "react";
  */
 
 function Homepage() {
-
+    console.log("Homepage rendered");
     return (
         <div>
             <h1>The Best Jobly</h1>

@@ -12,8 +12,15 @@ import React from "react";
 
 function CompanyCard({ company }) {
     return (
-        <p>CompanyCard Component</p>
-    )
+        <div className="CompanyCard">
+            <h3>
+                {company.name}
+            </h3>
+            {company.logoUrl &&
+                <img src={company.logoUrl} alt={company.name} />}
+            <p>{company.description}</p>
+        </div>
+    );
 }
 
 export default CompanyCard;

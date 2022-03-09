@@ -15,7 +15,7 @@ import JobCardList from "./JobCardList";
 
 function JobList() {
     // Makes axios call to get list of company on render
-
+    console.log("Job List Rendered");
     return (
         <div>
             <SearchForm />

@@ -12,6 +12,7 @@ import JobCard from "./JobCard";
  */
 
 function JobCardList() {
+    console.log("JobCardList Rendered");
     return (
         <div>
             <p>All Job List</p>

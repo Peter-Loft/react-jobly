@@ -15,7 +15,7 @@ import Routes from "./Routes";
 
 function App() {
 
-  console.log("App Component");
+  console.log("App Component rendered");
 
   return (
     <div className="App">

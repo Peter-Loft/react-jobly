@@ -11,9 +11,10 @@ import React from "react";
  */
 
 function JobCard({ job }) {
+    
     return (
         <p>JobCard Component</p>
-    )
+    );
 }
 
 export default JobCard;

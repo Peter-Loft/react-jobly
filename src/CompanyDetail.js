@@ -12,10 +12,10 @@ import JobCardList from "./JobCardList";
  */
 
 function CompanyDetail() {
-
+    console.log("CompanyDetail Rendered");
     //UseParams to grab company handle from URL
     // Makes axios call to get single company
-
+    
     return (
         <div>
             <p>Company Name</p>

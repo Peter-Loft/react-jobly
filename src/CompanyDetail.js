@@ -16,19 +16,19 @@ import JoblyApi from "./api";
 function CompanyDetail() {
     console.log("CompanyDetail Rendered");
 
-    const params = useParams(); //company handle
+    const {company} = useParams(); //company handle
 
     const [companyDetails, setCompanyDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(function fetchCompanyWhenMounted() {
         async function fetchCompany() {
-            const result = await JoblyApi.getCompany(params.company);
+            const result = await JoblyApi.getCompany(company);
             setCompanyDetails(result);
             setIsLoading(false);
         }
         fetchCompany();
-    }, []);
+    }, [company]);
 
     if (isLoading) return <h1><i>Loading Companies...</i></h1>
 

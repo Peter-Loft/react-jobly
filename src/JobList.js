@@ -37,7 +37,8 @@ function JobList() {
         }
         _fetchJobs();
     }
-
+    // CR: Always better to have less state, here it fine,
+    // but could get by without it
     if (isLoading) return <h1><i>Loading Jobs...</i></h1>
 
     return (

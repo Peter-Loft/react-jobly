@@ -13,7 +13,7 @@ import JobCard from "./JobCard";
 
 function JobCardList({ jobs }) {
     console.log("JobCardList Rendered");
-
+    // className on very first thing that is the component
     return (
         <div>
             <ul className="JobCardList">

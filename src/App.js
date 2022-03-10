@@ -20,8 +20,10 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Nav />
-        <Routes />
+        {/* Context goes here */}
+          <Nav />
+          <Routes />
+        {/* Context ends here */}
       </BrowserRouter>
     </div>
   );

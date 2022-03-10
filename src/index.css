@@ -5,9 +5,26 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url("../public/background.6549e727.png");
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.CompanyCard,.JobCard {
+  border: solid;
+  border-color: black;
+  margin: 10px;
+  background-color: white;
+  padding: 7px;
+}
+
+.CompanyCards {
+  display: flex;
+}
+
+ul {
+  list-style: none;
 }

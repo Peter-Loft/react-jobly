@@ -45,22 +45,24 @@ function CompanyList() {
 
   //Map over state, display company card for each
   return (
-    <div>
-      <SearchForm handleSubmit={handleSubmit} />
-      <ul className="CompanyCardList">
-        {companies.map(comp => {
-          return (
-            <Link
-              to={`/companies/${comp.handle}`}
-              key={comp.handle} >
-              <li >
-                <CompanyCard company={comp} />
-              </li>
-            </Link>)
-        })
-        }
-      </ul>
-    </div>
+      <div className="CompanyCardList">
+        <SearchForm handleSubmit={handleSubmit} />
+        {companies.length !== 0 &&
+          <ul>
+            {companies.map(comp => {
+              return (
+                <Link
+                  to={`/companies/${comp.handle}`}
+                  key={comp.handle} >
+                  <li >
+                    <CompanyCard company={comp} />
+                  </li>
+                </Link>)
+            })
+            }
+          </ul>}
+        {companies.length === 0 && <p>No Results Found...</p>}
+      </div>
   );
 }
 

@@ -13,7 +13,7 @@ import React from "react";
 function JobCard({ job }) {
 
     return (
-        <div>
+        <div className="JobCard">
             <h3> {job.title} </h3>
             {job.companyName && <h4>{job.companyName}</h4>}
             {job.salary && <p>Salary: ${job.salary.toLocaleString()}</p>}

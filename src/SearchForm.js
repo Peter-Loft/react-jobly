@@ -13,30 +13,39 @@ import React, { useState } from "react";
  */
 function SearchForm({ handleSubmit }) {
 
+    console.log("Search form rendering");
+
     const [searchTerm, setSearchTerm] = useState("");
 
-    function submitSearch(evt) {
+    function handleChangeAndSubmit(evt) {
         evt.preventDefault();
-        handleSubmit(searchTerm);
-    }
-
-    function handleChange(evt) {
         const term = evt.target.value
-        console.log("Term =", term);
         setSearchTerm(term);
+        handleSubmit(term);
     }
 
-    console.log("Search Form rendered");
+    // function submitSearch(evt) {
+    //     evt.preventDefault();
+    //     handleSubmit(searchTerm);
+    //     setSearchTerm("");
+    // }
+
+    // function handleChange(evt) {
+    //     const term = evt.target.value
+    //     console.log("Term =", term);
+    //     setSearchTerm(term);
+    // }
+
     return (
         <form>
             <label htmlFor="searchBar" />
             <input type="text"
-                onChange={handleChange}
+                onChange={handleChangeAndSubmit}
                 id="searchBar"
                 name="searchBar"
                 value={searchTerm}>
             </input>
-            <button onClick={submitSearch}>Submit</button>
+            {/* <button onClick={submitSearch}>Submit</button> */}
         </form >
     )
 

@@ -1,7 +1,9 @@
-import { NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom";
 // TODO: add css.
 
 function Nav() {
+
+  console.log("Nav rendering");
   
   return (
     <nav>

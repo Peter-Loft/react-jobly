@@ -1,18 +1,20 @@
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useHistory } from 'react-router-dom';
 import './App.css';
 import Nav from "./Nav";
 import Routes from "./Routes";
 import { useState, useEffect } from 'react';
 import JoblyApi from './api';
 import jwt_decode from "jwt-decode";
-//const jwt = require("jsonwebtoken");
+import UserContext from "./userContext";
 
 /**
  * Main app component
  * Handles Nav and Routes
  * 
  * Props - None
- * State - None
+ * State
+ * - token: received from API on login/register
+ * - currentUser: Verified User Object from token.
  * 
  * App --> Nav, Routes
  */
@@ -20,7 +22,8 @@ import jwt_decode from "jwt-decode";
 function App() {
 
   const [token, setToken] = useState();
-  const [currentUser, setCurrentUser] = useState();
+  const [currentUser, setCurrentUser] = useState(null);
+  // const history = useHistory();
 
   useEffect(function updateUserOnTokenChange() {
     async function updateUser() {
@@ -29,7 +32,7 @@ function App() {
         const result = await JoblyApi.getUser(username);
         setCurrentUser(result);
       } catch {
-        setCurrentUser({});
+        setCurrentUser(null);
       }
     }
     updateUser();
@@ -40,8 +43,10 @@ function App() {
       const result = await JoblyApi.registerUser(formData);
       setToken(result);
       JoblyApi.token = result;
+      // history.replace("/");
     }
     signup();
+
   }
 
   function handleLogin(formData) {
@@ -49,6 +54,7 @@ function App() {
       const result = await JoblyApi.loginUser(formData);
       setToken(result);
       JoblyApi.token = result;
+      // history.replace("/");
     }
     login();
   }
@@ -62,10 +68,15 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        {/* Context goes here */}
-        <Nav />
-        <Routes handleSignup={handleSignup} handleLogin={handleLogin} />
-        {/* Context ends here */}
+        <UserContext.Provider value={{ currentUser }}>
+
+          <Nav
+            handleLogout={handleLogout} />
+          <Routes
+            handleSignup={handleSignup}
+            handleLogin={handleLogin} />
+
+        </UserContext.Provider>
       </BrowserRouter>
     </div>
   );

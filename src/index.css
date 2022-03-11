@@ -28,3 +28,12 @@ code {
 ul {
   list-style: none;
 }
+
+form {
+  font-size: 2em;
+  display: block;
+}
+
+input {
+  font-size: 1.0em;
+}

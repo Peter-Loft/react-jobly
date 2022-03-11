@@ -1,5 +1,8 @@
 import React from "react";
 import { useState } from "react";
+import { useContext } from "react";
+import UserContext from "./userContext";
+
 
 /**
  * Profile Form, all fields editable except for username
@@ -16,16 +19,9 @@ import { useState } from "react";
 
 function ProfileForm({ handleSave }) {
 
-  const [formValues, setFormValues] = useState({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-  });  
+  const { currentUser } = useContext(UserContext);
 
-  //useEffect
-  //API call getting username from context
+  const [formValues, setFormValues] = useState( currentUser );
 
   function submitForm(evt) {
     evt.preventDefault();
@@ -50,7 +46,7 @@ function ProfileForm({ handleSave }) {
         onChange={handleChange}
         disabled="true"
       />
-
+      <br />
       <label htmlFor="firstName">First:</label>
       <input
         id="firstName"
@@ -58,7 +54,7 @@ function ProfileForm({ handleSave }) {
         value={formValues.firstName}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="lastName">Last:</label>
       <input
         id="lastName"
@@ -66,7 +62,7 @@ function ProfileForm({ handleSave }) {
         value={formValues.lastName}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="email">Email:</label>
       <input
         id="email"
@@ -74,6 +70,7 @@ function ProfileForm({ handleSave }) {
         value={formValues.email}
         onChange={handleChange}
       />
+      <br />
       <button>Save Changes!</button>
     </form>
   )

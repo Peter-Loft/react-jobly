@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Redirect } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 /**
  * Login Form Component
@@ -9,32 +9,31 @@ import { Redirect } from 'react-router-dom'
  * - control component for form
  * 
  * props:
- * - handleSave: Fn passed from app to set user in
- * localstorage and provide context.
+ * - handleLogin: Fn passed from app to set a new token.
  * 
  * Routes --> LoginForm
  */
 
 function LoginForm({ handleLogin }) {
 
-    const [formValues, setFormValues] = useState({
-        username: "",
-        password: "",
-    });
+  const [formValues, setFormValues] = useState({
+    username: "",
+    password: "",
+  });
 
-    function submitForm(evt) {
-        evt.preventDefault();
-        handleLogin(formValues);
-        return <Redirect to="/" />
-      }
-    
-      function handleChange(evt) {
-        const { name, value } = evt.target;
-        setFormValues(fData => ({
-          ...fData,
-          [name]: value,
-        }));
-      }
+  function submitForm(evt) {
+    evt.preventDefault();
+    handleLogin(formValues);
+    return <Redirect to="/" />
+  }
+
+  function handleChange(evt) {
+    const { name, value } = evt.target;
+    setFormValues(fData => ({
+      ...fData,
+      [name]: value,
+    }));
+  }
 
   return (
     <form onSubmit={submitForm}>
@@ -45,7 +44,7 @@ function LoginForm({ handleLogin }) {
         value={formValues.username}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="password">Password:</label>
       <input
         id="password"
@@ -53,6 +52,7 @@ function LoginForm({ handleLogin }) {
         value={formValues.password}
         onChange={handleChange}
       />
+      <br />
       <button>Login!</button>
     </form>
   )

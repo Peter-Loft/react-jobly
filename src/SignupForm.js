@@ -25,6 +25,7 @@ function SignupForm({ handleSignup }) {
   function submitForm(evt) {
     evt.preventDefault();
     handleSignup(formValues);
+    
   }
 
   function handleChange(evt) {
@@ -44,7 +45,7 @@ function SignupForm({ handleSignup }) {
         value={formValues.username}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="password">Password:</label>
       <input
         id="password"
@@ -52,7 +53,7 @@ function SignupForm({ handleSignup }) {
         value={formValues.password}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="firstName">First:</label>
       <input
         id="firstName"
@@ -60,7 +61,7 @@ function SignupForm({ handleSignup }) {
         value={formValues.firstName}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="lastName">Last:</label>
       <input
         id="lastName"
@@ -68,7 +69,7 @@ function SignupForm({ handleSignup }) {
         value={formValues.lastName}
         onChange={handleChange}
       />
-
+      <br />
       <label htmlFor="email">Email:</label>
       <input
         id="email"
@@ -76,6 +77,7 @@ function SignupForm({ handleSignup }) {
         value={formValues.email}
         onChange={handleChange}
       />
+      <br />
       <button>Sign Up!</button>
     </form>
   )

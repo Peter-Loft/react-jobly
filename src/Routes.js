@@ -1,8 +1,4 @@
-import {
-  Switch,
-  Route,
-  Redirect
-} from 'react-router-dom';
+import {Switch,Route,Redirect} from 'react-router-dom';
 import CompanyList from "./CompanyList";
 import CompanyDetail from "./CompanyDetail";
 import JobList from "./JobList";
@@ -11,7 +7,19 @@ import LoginForm from "./LoginForm";
 import ProfileForm from "./ProfileForm";
 import SignupForm from "./SignupForm";
 
-//TODO Logic for redirect when logged in vs logged out
+/** Routes Component
+ * 
+ * State- none
+ * 
+ * Props-
+ * handleSignup: Fn to sign up a new user in app
+ * passes to signup component
+ * 
+ * handleLogin: Fn to login an existing user in app
+ * passes to login component
+ * 
+ * App -> Routes
+ */
 
 function Routes({ handleSignup, handleLogin }) {
   return (

@@ -1,4 +1,4 @@
-import {Switch,Route,Redirect} from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import CompanyList from "./CompanyList";
 import CompanyDetail from "./CompanyDetail";
 import JobList from "./JobList";
@@ -6,6 +6,8 @@ import Homepage from "./Homepage";
 import LoginForm from "./LoginForm";
 import ProfileForm from "./ProfileForm";
 import SignupForm from "./SignupForm";
+import { useContext } from "react";
+import UserContext from "./userContext";
 
 /** Routes Component
  * 
@@ -21,34 +23,50 @@ import SignupForm from "./SignupForm";
  * App -> Routes
  */
 
-//Protection for routes will go here
-
 function Routes({ handleSignup, handleLogin }) {
+
+  const { currentUser } = useContext(UserContext);
+
+  console.log("Routes rendred - currentUser", currentUser);
+
   return (
-    <Switch>
-      <Route exact path="/login">
-        <LoginForm handleLogin={handleLogin} />
-      </Route>
-      <Route exact path="/signup">
-        <SignupForm handleSignup={handleSignup} />
-      </Route>
-      <Route exact path="/profile">
-        <ProfileForm />
-      </Route>
-      <Route exact path="/companies">
-        <CompanyList />
-      </Route>
-      <Route exact path="/companies/:company">
-        <CompanyDetail />
-      </Route>
-      <Route exact path="/jobs">
-        <JobList />
-      </Route>
-      <Route exact path="/">
-        <Homepage />
-      </Route>
-      <Redirect to="/login" />
-    </Switch>
+    <>
+      {currentUser &&
+        <Switch>
+          <Route exact path="/profile">
+            <ProfileForm />
+          </Route>
+          <Route exact path="/companies">
+            <CompanyList />
+          </Route>
+          <Route exact path="/companies/:company">
+            <CompanyDetail />
+          </Route>
+          <Route exact path="/jobs">
+            <JobList />
+          </Route>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      }
+
+      {!currentUser &&
+        <Switch>
+          <Route exact path="/login">
+            <LoginForm handleLogin={handleLogin} />
+          </Route>
+          <Route exact path="/signup">
+            <SignupForm handleSignup={handleSignup} />
+          </Route>
+          <Route exact path="/">
+            <Homepage />
+          </Route>
+          <Redirect to="/login" />
+        </Switch>
+      }
+    </>
   )
 }
 

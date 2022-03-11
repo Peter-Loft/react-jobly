@@ -18,6 +18,7 @@ import UserContext from "./userContext";
  */
 
 function ProfileForm({ handleSave }) {
+  console.log("ProfileForm rendered");
 
   const { currentUser } = useContext(UserContext);
 

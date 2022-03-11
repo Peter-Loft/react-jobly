@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
  * Routes --> SignForm
  */
 function SignupForm({ handleSignup }) {
+  console.log("SignupForm rendered");
 
   const history = useHistory();
 

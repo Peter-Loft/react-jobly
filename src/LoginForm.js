@@ -16,6 +16,7 @@ import { useHistory } from 'react-router-dom'
  */
 
 function LoginForm({ handleLogin }) {
+  console.log("LoginForm rendered");
 
   const history = useHistory();
 
@@ -32,7 +33,6 @@ function LoginForm({ handleLogin }) {
     } catch (err) {
       alert(err);
     }
-    
   }
 
   function handleChange(evt) {

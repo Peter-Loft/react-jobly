@@ -7,12 +7,12 @@ import { useState } from "react";
  * - control component for form;
  * 
  * props:
- * - handleSave: Fn passed from app to set user in
+ * - handleSignup: Fn passed from app to set user in
  * localstorage and provide context.
  * 
- * App -> 
+ * Routes --> SignForm
  */
-function SignupForm({ handleSave }) {
+function SignupForm({ handleSignup }) {
 
   const [formValues, setFormValues] = useState({
     username: "",
@@ -24,7 +24,7 @@ function SignupForm({ handleSave }) {
 
   function submitForm(evt) {
     evt.preventDefault();
-    handleSave(formValues);
+    handleSignup(formValues);
   }
 
   function handleChange(evt) {

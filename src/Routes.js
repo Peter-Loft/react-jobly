@@ -11,14 +11,16 @@ import LoginForm from "./LoginForm";
 import ProfileForm from "./ProfileForm";
 import SignupForm from "./SignupForm";
 
-function Routes() {
+//TODO Logic for redirect when logged in vs logged out
+
+function Routes({ handleSignup, handleLogin }) {
   return (
     <Switch>
       <Route exact path="/login">
-        <LoginForm />
+        <LoginForm handleLogin={handleLogin} />
       </Route>
       <Route exact path="/signup">
-        <SignupForm />
+        <SignupForm handleSignup={handleSignup} />
       </Route>
       <Route exact path="/profile">
         <ProfileForm />

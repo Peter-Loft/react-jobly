@@ -1,4 +1,4 @@
-import { BrowserRouter, useHistory } from 'react-router-dom';
+import { BrowserRouter, Redirect } from 'react-router-dom';
 import './App.css';
 import Nav from "./Nav";
 import Routes from "./Routes";
@@ -23,7 +23,7 @@ function App() {
 
   const [token, setToken] = useState();
   const [currentUser, setCurrentUser] = useState(null);
-  // const history = useHistory();
+  // const [redirectFlag, setRedirectFlag] = useState(false);
 
   useEffect(function updateUserOnTokenChange() {
     async function updateUser() {
@@ -43,10 +43,10 @@ function App() {
       const result = await JoblyApi.registerUser(formData);
       setToken(result);
       JoblyApi.token = result;
-      // history.replace("/");
+      // setRedirectFlag(true);
     }
     signup();
-
+    
   }
 
   function handleLogin(formData) {
@@ -54,14 +54,17 @@ function App() {
       const result = await JoblyApi.loginUser(formData);
       setToken(result);
       JoblyApi.token = result;
-      // history.replace("/");
+      // setRedirectFlag(true);
     }
     login();
+    
   }
 
   function handleLogout() {
     setToken("");
   }
+
+  // if (redirectFlag) return <Redirect push to="/login"/>;
 
   console.log("App Component rendered");
 

@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { Redirect, useHistory } from 'react-router-dom'
 
+
 /**
  * Login Form Component
  * 
@@ -15,6 +16,11 @@ import { Redirect, useHistory } from 'react-router-dom'
  */
 
 function LoginForm({ handleLogin }) {
+
+  const history = useHistory();
+  const redirect = () => {
+    history.push('/login');
+  }
 
   const [formValues, setFormValues] = useState({
     username: "",
@@ -53,7 +59,7 @@ function LoginForm({ handleLogin }) {
         onChange={handleChange}
       />
       <br />
-      <button>Login!</button>
+      <button onClick={redirect}>Login!</button>
     </form>
   )
 }

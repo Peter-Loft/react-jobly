@@ -31,31 +31,22 @@ function App() {
         const result = await JoblyApi.getUser(username);
         setCurrentUser(result);
       } catch {
-        //CR user is already udefined. dont need to re-render
-        setCurrentUser(null);
+        if (token) setCurrentUser(null);
       }
     }
     updateUser();
   }, [token]);
 
-  function handleSignup(formData) {
-    async function signup() {
-      const result = await JoblyApi.registerUser(formData);
-      setToken(result);
-      JoblyApi.token = result;
-    }
-    signup();
-    
+  async function handleSignup(formData) {
+    const result = await JoblyApi.registerUser(formData);
+    setToken(result);
+    JoblyApi.token = result;
   }
-  //CR do not need nested async functions
-  function handleLogin(formData) {
-    async function login() {
-      const result = await JoblyApi.loginUser(formData);
-      setToken(result);
-      JoblyApi.token = result;
-    }
-    login();
-    
+  
+  async function handleLogin(formData) {
+    const result = await JoblyApi.loginUser(formData);
+    setToken(result);
+    JoblyApi.token = result;
   }
 
   function handleLogout() {

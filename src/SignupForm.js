@@ -25,10 +25,14 @@ function SignupForm({ handleSignup }) {
     email: "",
   });
 
-  function submitForm(evt) {
+  async function submitForm(evt) {
     evt.preventDefault();
-    handleSignup(formValues);
-    history.push('/');
+    try {
+      await handleSignup(formValues);
+      history.push('/');
+    } catch (err) {
+      alert(err);
+    }
   }
 
   function handleChange(evt) {
@@ -47,14 +51,17 @@ function SignupForm({ handleSignup }) {
         name="username"
         value={formValues.username}
         onChange={handleChange}
+        required
       />
       <br />
       <label htmlFor="password">Password:</label>
       <input
         id="password"
         name="password"
+        type="password"
         value={formValues.password}
         onChange={handleChange}
+        required
       />
       <br />
       <label htmlFor="firstName">First:</label>
@@ -63,6 +70,7 @@ function SignupForm({ handleSignup }) {
         name="firstName"
         value={formValues.firstName}
         onChange={handleChange}
+        required
       />
       <br />
       <label htmlFor="lastName">Last:</label>
@@ -71,6 +79,7 @@ function SignupForm({ handleSignup }) {
         name="lastName"
         value={formValues.lastName}
         onChange={handleChange}
+        required
       />
       <br />
       <label htmlFor="email">Email:</label>
@@ -79,6 +88,7 @@ function SignupForm({ handleSignup }) {
         name="email"
         value={formValues.email}
         onChange={handleChange}
+        required
       />
       <br />
       <button>Sign Up!</button>

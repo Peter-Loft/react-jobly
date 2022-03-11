@@ -29,7 +29,7 @@ function Nav({ handleLogout }) {
           <NavLink exact to="/companies">Companies</NavLink>
           <NavLink exact to="/jobs">Jobs</NavLink>
           <NavLink exact to="/profile">Profile</NavLink>
-          <Link exact to="/login" onClick={handleLogout}>Logout: {currentUser.username}</Link>
+          <Link to="/login" onClick={handleLogout}>Logout: {currentUser.username}</Link>
         </div>)
         : (<div>
           <NavLink exact to="/">Jobly</NavLink>

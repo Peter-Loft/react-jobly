@@ -24,12 +24,15 @@ function LoginForm({ handleLogin }) {
     password: "",
   });
 
-  //CR look at making this async so we can handle form problems
-  //history.push happenign no matter what right now
-  function submitForm(evt) {
+  async function submitForm(evt) {
     evt.preventDefault();
-    handleLogin(formValues);
-    history.push('/');
+    try {
+      await handleLogin(formValues);
+      history.push('/');
+    } catch (err) {
+      alert(err);
+    }
+    
   }
 
   function handleChange(evt) {
@@ -39,9 +42,7 @@ function LoginForm({ handleLogin }) {
       [name]: value,
     }));
   }
-  //CR form type for password so its blanked out
 
-  //CR add 'require' prop on inputs for front end validation
   return (
     <form onSubmit={submitForm}>
       <label htmlFor="username">Username:</label>
@@ -57,8 +58,10 @@ function LoginForm({ handleLogin }) {
       <input
         id="password"
         name="password"
+        type="password"
         value={formValues.password}
         onChange={handleChange}
+        required
       />
       <br />
       <button>Login!</button>

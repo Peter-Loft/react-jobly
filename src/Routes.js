@@ -21,6 +21,8 @@ import SignupForm from "./SignupForm";
  * App -> Routes
  */
 
+//Protection for routes will go here
+
 function Routes({ handleSignup, handleLogin }) {
   return (
     <Switch>

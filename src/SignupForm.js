@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useHistory } from 'react-router-dom';
 
 /**
  * 
@@ -14,6 +15,8 @@ import { useState } from "react";
  */
 function SignupForm({ handleSignup }) {
 
+  const history = useHistory();
+
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
@@ -25,7 +28,7 @@ function SignupForm({ handleSignup }) {
   function submitForm(evt) {
     evt.preventDefault();
     handleSignup(formValues);
-    
+    history.push('/');
   }
 
   function handleChange(evt) {

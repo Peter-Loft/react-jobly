@@ -15,7 +15,6 @@ import JoblyApi from "./api";
  */
 
 function JobList() {
-    // Makes axios call to get list of company on render
     console.log("Job List Rendered");
 
     const [jobs, setJobs] = useState(null);
@@ -37,8 +36,7 @@ function JobList() {
         }
         _fetchJobs();
     }
-    // CR: Always better to have less state, here it fine,
-    // but could get by without it
+
     if (isLoading) return <h1><i>Loading Jobs...</i></h1>
 
     return (

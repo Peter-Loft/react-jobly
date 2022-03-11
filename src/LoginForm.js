@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { Redirect, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 
 
 /**
@@ -18,19 +18,18 @@ import { Redirect, useHistory } from 'react-router-dom'
 function LoginForm({ handleLogin }) {
 
   const history = useHistory();
-  const redirect = () => {
-    history.push('/login');
-  }
 
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
   });
 
+  //CR look at making this async so we can handle form problems
+  //history.push happenign no matter what right now
   function submitForm(evt) {
     evt.preventDefault();
     handleLogin(formValues);
-    return <Redirect to="/" />
+    history.push('/');
   }
 
   function handleChange(evt) {
@@ -40,7 +39,9 @@ function LoginForm({ handleLogin }) {
       [name]: value,
     }));
   }
+  //CR form type for password so its blanked out
 
+  //CR add 'require' prop on inputs for front end validation
   return (
     <form onSubmit={submitForm}>
       <label htmlFor="username">Username:</label>
@@ -49,6 +50,7 @@ function LoginForm({ handleLogin }) {
         name="username"
         value={formValues.username}
         onChange={handleChange}
+        required
       />
       <br />
       <label htmlFor="password">Password:</label>
@@ -59,7 +61,7 @@ function LoginForm({ handleLogin }) {
         onChange={handleChange}
       />
       <br />
-      <button onClick={redirect}>Login!</button>
+      <button>Login!</button>
     </form>
   )
 }

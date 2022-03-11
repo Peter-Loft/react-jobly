@@ -38,12 +38,8 @@ function CompanyList() {
     _fetchCompanies();
   }
 
-  // Makes axios call to get list of company on render
-
   if (isLoading) return <h1><i>Loading Companies...</i></h1>
 
-
-  //Map over state, display company card for each
   return (
       <div className="CompanyCardList">
         <SearchForm handleSubmit={handleSubmit} />

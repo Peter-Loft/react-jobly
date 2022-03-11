@@ -1,6 +1,5 @@
 import { NavLink, Link } from "react-router-dom";
 import "./Nav.css";
-// TODO: Add logic for logged in or not
 
 import { useContext } from "react";
 import UserContext from "./userContext";
@@ -22,21 +21,21 @@ function Nav({ handleLogout }) {
   console.log("Nav rendering");
 
   return (
-    <nav>
+    <nav className="nav-bar">
 
       {currentUser
-        ? (<span>
+        ? (<div>
           <NavLink exact to="/">Jobly</NavLink>
           <NavLink exact to="/companies">Companies</NavLink>
           <NavLink exact to="/jobs">Jobs</NavLink>
           <NavLink exact to="/profile">Profile</NavLink>
           <Link exact to="/login" onClick={handleLogout}>Logout: {currentUser.username}</Link>
-        </span>)
-        : (<span>
+        </div>)
+        : (<div>
           <NavLink exact to="/">Jobly</NavLink>
           <NavLink exact to="/login">Login</NavLink>
           <NavLink exact to="/signup">Sign Up</NavLink>
-        </span>)}
+        </div>)}
 
     </nav>
   );

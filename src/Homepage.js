@@ -17,7 +17,7 @@ function Homepage() {
 
     console.log("Homepage rendered");
     return (
-        <div>
+        <div className="welcome-page">
             <h1>The Best Jobly</h1>
             <p>All the jobs in one, convenient place.</p>
             {currentUser && <h2>Welcome back, {currentUser.firstName}</h2>}

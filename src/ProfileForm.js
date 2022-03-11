@@ -21,7 +21,9 @@ function ProfileForm({ handleSave }) {
 
   const { currentUser } = useContext(UserContext);
 
-  const [formValues, setFormValues] = useState( currentUser );
+  const [formValues, setFormValues] = useState( () => 
+    { return { ...currentUser }}
+  );
 
   function submitForm(evt) {
     evt.preventDefault();
@@ -36,43 +38,50 @@ function ProfileForm({ handleSave }) {
     }));
   }
 
+  console.log("Profile Form has firing: ", currentUser);
+  console.log("formValues: ", formValues);
   return (
-    <form onSubmit={submitForm}>
-      <label htmlFor="username">Username:</label>
-      <input
-        id="username"
-        name="username"
-        value={formValues.username}
-        onChange={handleChange}
-        disabled="true"
-      />
-      <br />
-      <label htmlFor="firstName">First:</label>
-      <input
-        id="firstName"
-        name="firstName"
-        value={formValues.firstName}
-        onChange={handleChange}
-      />
-      <br />
-      <label htmlFor="lastName">Last:</label>
-      <input
-        id="lastName"
-        name="lastName"
-        value={formValues.lastName}
-        onChange={handleChange}
-      />
-      <br />
-      <label htmlFor="email">Email:</label>
-      <input
-        id="email"
-        name="email"
-        value={formValues.email}
-        onChange={handleChange}
-      />
-      <br />
-      <button>Save Changes!</button>
-    </form>
+    <div>
+      {currentUser && <form onSubmit={submitForm}>
+        <label htmlFor="username">Username:</label>
+        <input
+          id="username"
+          name="username"
+          value={formValues.username}
+          onChange={handleChange}
+          disabled="true"
+        />
+        <br />
+        <label htmlFor="firstName">First:</label>
+        <input
+          id="firstName"
+          name="firstName"
+          value={formValues.firstName}
+          onChange={handleChange}
+          required
+        />
+        <br />
+        <label htmlFor="lastName">Last:</label>
+        <input
+          id="lastName"
+          name="lastName"
+          value={formValues.lastName}
+          onChange={handleChange}
+          required
+        />
+        <br />
+        <label htmlFor="email">Email:</label>
+        <input
+          id="email"
+          name="email"
+          value={formValues.email}
+          onChange={handleChange}
+          required
+        />
+        <br />
+        <button>Save Changes!</button>
+      </form>}
+    </div>
   )
 }
 

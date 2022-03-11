@@ -21,36 +21,54 @@ import UserContext from "./userContext";
 
 function App() {
 
-  const [token, setToken] = useState();
+  const [
+    isTokenInLocalStorage, 
+    setIsTokenInLocalStorage
+  ] = useState(false);
+
+  // localstorage setting
+  // localStorage.getItem("token");
+
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(function updateUserOnTokenChange() {
+    const token = localStorage.getItem("token");
+    
+    console.log("token: ", token);
     async function updateUser() {
       try {
+        JoblyApi.token = token;
         const { username } = jwt_decode(token);
         const result = await JoblyApi.getUser(username);
+        console.log("await for useEffect Done: ");
         setCurrentUser(result);
+        setIsTokenInLocalStorage(true);
       } catch {
         if (token) setCurrentUser(null);
       }
     }
     updateUser();
-  }, [token]);
+  }, [isTokenInLocalStorage]);
 
   async function handleSignup(formData) {
     const result = await JoblyApi.registerUser(formData);
-    setToken(result);
+    // setToken(result);
+    localStorage.setItem("token", result);
+    setIsTokenInLocalStorage(true);
     JoblyApi.token = result;
   }
-  
+
   async function handleLogin(formData) {
     const result = await JoblyApi.loginUser(formData);
-    setToken(result);
+    // setToken(result);
+    setIsTokenInLocalStorage(true);
+    localStorage.setItem("token", result);
     JoblyApi.token = result;
   }
 
   function handleLogout() {
-    setToken("");
+    localStorage.removeItem("key");
+    setIsTokenInLocalStorage(false);
   }
 
   console.log("App Component rendered");

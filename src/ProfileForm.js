@@ -50,7 +50,7 @@ function ProfileForm({ handleSave }) {
           name="username"
           value={formValues.username}
           onChange={handleChange}
-          disabled="true"
+          disabled={true}
         />
         <br />
         <label htmlFor="firstName">First:</label>

@@ -28,30 +28,42 @@ function App() {
     setIsTokenInLocalStorage
   ] = useState(false);
 
-  // localstorage setting
-  // localStorage.getItem("token");
-
   const [currentUser, setCurrentUser] = useState(null);
-  //const [token, setToken] = useState(localStorage.getItem("token"));
+  const [isLoading, setIsLoading] = useState(true);
+
+  const token = localStorage.getItem("token");
 
   useEffect(function updateUserOnTokenChange() {
-    const token = localStorage.getItem("token");
-
-    console.log("token: ", token);
-    async function updateUser() {
+      console.log("token: ", token);
+      async function updateUser() {
         try {
           JoblyApi.token = token;
           const { username } = jwt_decode(token);
           const result = await JoblyApi.getUser(username);
           console.log("await for useEffect Done: ");
           setCurrentUser(result);
-          setIsTokenInLocalStorage(true);
+          setIsLoading(false);
         } catch {
           if (token) setCurrentUser(null);
         }
-    }
-    updateUser();
+      }
+      updateUser();
   }, [isTokenInLocalStorage]);
+
+  async function loadUser() {
+    console.log("loading user function");
+    console.log("localstorage token", localStorage.getItem("token"))
+    if (token) {
+      JoblyApi.token = token;
+      const { username } = jwt_decode(token);
+      const result = await JoblyApi.getUser(username);
+      setCurrentUser(result);
+      setIsLoading(false);
+      setIsTokenInLocalStorage(true);
+    } else {
+      setIsLoading(false);
+    }
+  }
 
   async function handleSignup(formData) {
     const result = await JoblyApi.registerUser(formData);
@@ -77,7 +89,11 @@ function App() {
     setCurrentUser(null);
   }
 
-  
+  if (isLoading) {
+    console.log("isLoading function running");
+    loadUser();
+    return <h1>Loading dopest page in the west...</h1>
+  }
 
   return (
     <div className="App">

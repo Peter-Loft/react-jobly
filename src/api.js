@@ -107,6 +107,8 @@ class JoblyApi {
     return res.companies;
   }
 
+  //Create functino for User PATCH request
+
 }
 
 export default JoblyApi;

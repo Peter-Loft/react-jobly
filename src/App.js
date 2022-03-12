@@ -84,13 +84,15 @@ function App() {
     JoblyApi.token = result;
     setIsTokenInLocalStorage(true);
   }
-
+  //CR Make handle logout async. May need to wait for logout in future.
   function handleLogout() {
     localStorage.removeItem("token");
     setIsTokenInLocalStorage(false);
     //setToken(null);
     setCurrentUser(null);
   }
+
+  //TODO Create functino for handling update user/PATCH
 
   if (isLoading) {
     console.log("isLoading function running");

@@ -32,6 +32,7 @@ function LoginForm({ handleLogin }) {
       history.push('/');
     } catch (err) {
       alert(err);
+      //CR Set error variable/state. Show in return.
     }
   }
 

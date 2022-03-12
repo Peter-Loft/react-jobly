@@ -22,13 +22,16 @@ function ProfileForm({ handleSave }) {
 
   const { currentUser } = useContext(UserContext);
 
-  const [formValues, setFormValues] = useState( () => 
-    { return { ...currentUser }}
+  const [formValues, setFormValues] = useState(() => { return { ...currentUser } }
   );
 
   function submitForm(evt) {
     evt.preventDefault();
-    handleSave(formValues);
+    try {
+      handleSave(formValues);
+    } catch (err) {
+      alert(err);
+    }
   }
 
   function handleChange(evt) {

@@ -34,36 +34,39 @@ function App() {
   const token = localStorage.getItem("token");
 
   useEffect(function updateUserOnTokenChange() {
-      console.log("token: ", token);
-      async function updateUser() {
-        try {
-          JoblyApi.token = token;
-          const { username } = jwt_decode(token);
-          const result = await JoblyApi.getUser(username);
-          console.log("await for useEffect Done: ");
-          setCurrentUser(result);
-          setIsLoading(false);
-        } catch {
-          if (token) setCurrentUser(null);
-        }
+    console.log("token: ", token);
+    async function updateUser() {
+      try {
+        JoblyApi.token = token;
+        const { username } = jwt_decode(token);
+        const result = await JoblyApi.getUser(username);
+        console.log("await for useEffect Done: ");
+        setCurrentUser(result);
+        setIsLoading(false);
+      } catch {
+        if (token) setCurrentUser(null);
       }
-      updateUser();
+    }
+    updateUser();
   }, [isTokenInLocalStorage]);
 
-  async function loadUser() {
-    console.log("loading user function");
-    console.log("localstorage token", localStorage.getItem("token"))
-    if (token) {
-      JoblyApi.token = token;
-      const { username } = jwt_decode(token);
-      const result = await JoblyApi.getUser(username);
-      setCurrentUser(result);
-      setIsLoading(false);
-      setIsTokenInLocalStorage(true);
-    } else {
-      setIsLoading(false);
+  useEffect(function loadUserOnFirstLoad() {
+    async function loadUser() {
+      console.log("loading user function");
+      console.log("localstorage token", localStorage.getItem("token"))
+      if (token) {
+        JoblyApi.token = token;
+        const { username } = jwt_decode(token);
+        const result = await JoblyApi.getUser(username);
+        setCurrentUser(result);
+        setIsLoading(false);
+        setIsTokenInLocalStorage(true);
+      } else {
+        setIsLoading(false);
+      }
     }
-  }
+    loadUser();
+  }, []);
 
   async function handleSignup(formData) {
     const result = await JoblyApi.registerUser(formData);
@@ -91,7 +94,6 @@ function App() {
 
   if (isLoading) {
     console.log("isLoading function running");
-    loadUser();
     return <h1>Loading dopest page in the west...</h1>
   }
 

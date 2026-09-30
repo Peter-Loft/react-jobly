@@ -10,31 +10,30 @@ import { useContext } from "react";
 import UserContext from "./userContext";
 
 /** Routes Component
- * 
+ *
  * State- none
- * 
+ *
  * Props-
  * handleSignup: Fn to sign up a new user in app
  * passes to signup component
- * 
+ *
  * handleLogin: Fn to login an existing user in app
  * passes to login component
- * 
+ *
  * App -> Routes
  */
 
-function Routes({ handleSignup, handleLogin }) {
+function Routes({ handleSignup, handleLogin, handleSave }) {
 
   const { currentUser } = useContext(UserContext);
 
-  console.log("Routes rendred - currentUser", currentUser);
 
   return (
     <>
       {currentUser &&
         <Switch>
           <Route exact path="/profile">
-            <ProfileForm />
+            <ProfileForm handleSave={handleSave} />
           </Route>
           <Route exact path="/companies">
             <CompanyList />

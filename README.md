@@ -1,70 +1,147 @@
-# Getting Started with Create React App
+# Jobly — React Job Search App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React portfolio project for exploring companies, searching job listings, and managing a user profile. Jobly connects a client-side interface to a separate REST API, with JWT authentication and shared session state.
 
-## Available Scripts
+**[Frontend repository](https://github.com/Peter-Loft/react-jobly)** · **[Companion backend](https://github.com/Peter-Loft/react-jobly-backend)**
 
-In the project directory, you can run:
+![Jobly job search interface showing example roles](docs/images/job-search.png)
 
-### `npm start`
+*Local interface preview using mocked sample companies and jobs; these are not live vacancies.*
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Account access:** sign up, log in, restore a saved session, and log out.
+- **Company discovery:** browse companies, search by name, and open a company's available jobs.
+- **Job search:** search by title and view salary and equity information.
+- **Profile management:** update first name, last name, and email, with save confirmation and error feedback.
+- **Resilient UI:** loading and empty states, recoverable request errors, and protection against stale search responses.
+- **Responsive forms and navigation:** labeled inputs, keyboard focus indicators, and layouts that fit smaller screens.
 
-### `npm test`
+This repository contains the frontend. Authenticated features require the companion backend and a PostgreSQL database. The frontend does not currently submit job applications.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Engineering highlights
 
-### `npm run build`
+- **React hooks and Context** keep the authenticated user available across navigation and profile updates.
+- **React Router** separates public pages from pages that require a session. The backend remains responsible for authorization.
+- **A centralized API client** handles bearer tokens, request timeouts, encoded search parameters, and normalized errors without logging credentials.
+- **Async state handling** prevents old search responses from replacing newer results and clears invalid stored sessions.
+- **Behavior-focused regression tests** cover session recovery, login, profile saves, API failures, and search races.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Stack
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+| Area | Technology |
+| --- | --- |
+| Interface | React 17, JavaScript, CSS |
+| Navigation | React Router 5 |
+| API access | Axios, JWT decoding |
+| Development and build | Vite |
+| Tests | Vitest, React Testing Library, jsdom |
+| Companion API | Node.js, Express, PostgreSQL |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The project originally used Create React App. Its build and test tooling now use Vite and Vitest; React and React Router retain their existing major versions.
 
-### `npm run eject`
+## Run locally
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### 1. Start a compatible backend
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Use the [companion backend repository](https://github.com/Peter-Loft/react-jobly-backend). It exposes the API on port **3001** by default and uses a PostgreSQL database named `jobly`, or the connection supplied through `DATABASE_URL`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+After cloning that repository and installing its dependencies, initialize a **new, empty local database** from the backend directory:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```sh
+createdb jobly
+psql -d jobly -f jobly-schema.sql
+psql -d jobly -f jobly-seed.sql
+npm start
+```
 
-## Learn More
+Review the backend's own configuration before deployment. Its `jobly.sql` reset script drops and recreates databases; the commands above avoid using that reset script. The backend is maintained separately and is not included in this frontend's tests or dependency audit.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### 2. Install the frontend
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Use **Node.js 24 or newer** and npm. A `.nvmrc` file pins the development major version to 24.
 
-### Code Splitting
+```sh
+git clone https://github.com/Peter-Loft/react-jobly.git
+cd react-jobly
+npm ci
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Copy `.env.example` to `.env` and adjust the API address if needed:
 
-### Analyzing the Bundle Size
+```dotenv
+VITE_API_BASE_URL=http://localhost:3001
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+The default is already `http://localhost:3001`. Restart the development server after changing environment variables. Vite variables are embedded in browser code, so do not put secrets in this file.
 
-### Making a Progressive Web App
+```sh
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Open **http://127.0.0.1:3000**, create an account, and browse companies or jobs. The backend must allow the frontend origin through CORS.
 
-### Advanced Configuration
+### 3. Check and build
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+| Command | Purpose |
+| --- | --- |
+| `npm start` / `npm run dev` | Start the local development server |
+| `npm test` | Run the regression suite once |
+| `npm run test:watch` | Rerun tests while developing |
+| `npm run build` | Generate production files in `dist/` |
+| `npm run preview` | Preview a production build locally |
+| `npm audit` | Check installed dependencies against current advisories |
 
-### Deployment
+GitHub Actions runs installation, tests, and the production build for pushes and pull requests. Tests use mocked API responses and do not require PostgreSQL.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## API contract
 
-### `npm run build` fails to minify
+| Operation | Endpoint |
+| --- | --- |
+| Log in | `POST /auth/token` |
+| Sign up | `POST /auth/register` |
+| Restore user | `GET /users/:username` |
+| Save profile | `PATCH /users/:username` |
+| Browse/search companies | `GET /companies?name=...` |
+| Company details and jobs | `GET /companies/:handle` |
+| Browse/search jobs | `GET /jobs?title=...` |
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Protected requests send `Authorization: Bearer <token>`. Profile updates send only `firstName`, `lastName`, and `email`.
+
+## Project structure
+
+```text
+src/
+  App.jsx                 Session lifecycle and shared user state
+  Routes.jsx              Public and authenticated routes
+  api.js                  REST API client
+  useSearchResults.js     Search loading, errors, and stale-response protection
+  Company*.jsx            Company browsing and details
+  Job*.jsx                Job search and cards
+  *Form.jsx               Login, signup, profile, and search forms
+  *.test.*                Regression tests
+vite.config.js            Development and test configuration
+.env.example              API address configuration
+```
+
+## Deployment and current limits
+
+- Build with the deployed API's HTTPS address in `VITE_API_BASE_URL`, then host `dist/` on a static host.
+- Configure the host to rewrite frontend routes such as `/companies/example` to `index.html`.
+- The old CRA variable `REACT_APP_BASE_URL` is now `VITE_API_BASE_URL`; the output directory changed from `build/` to `dist/`.
+- A live hosted demo is not configured in this repository.
+- Tokens are stored in local storage for session persistence. A production deployment should review session storage and expiry with the backend; this app has no refresh-token flow.
+- Job applications, pagination, and a React major-version upgrade are future improvements.
+- Local frontend tests validate behavior with mocks. They do not establish end-to-end compatibility with a running backend and database.
+
+## LinkedIn project description
+
+> Jobly is a React job-search portfolio application with company discovery, searchable job listings, JWT-based account access, and editable user profiles. The frontend integrates with an Express/PostgreSQL API and demonstrates React hooks, Context, client-side routing, and asynchronous error handling. Recent maintenance adds regression tests and modernizes the build workflow with Vite and Vitest.
+
+**Suggested skills:** React · JavaScript · REST APIs · Authentication · React Testing Library · Responsive Web Design
+
+**Project link:** https://github.com/Peter-Loft/react-jobly
+
+## Contributors
+
+[Peter Loft](https://github.com/Peter-Loft) and Ryan Nissen contributed to the original project. See the repository's commit history for contributions.

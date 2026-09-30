@@ -2,11 +2,11 @@ import React from "react";
 
 /**
  * Single company card, displays company details
- * 
+ *
  * Props - { company }
- * 
+ *
  * State - None
- * 
+ *
  * CompanyList --> CompanyCard
  */
 

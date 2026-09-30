@@ -5,20 +5,18 @@ import { useContext } from "react";
 import UserContext from "./userContext";
 
 /** Navbar component
- * 
+ *
  * State- none
- * 
+ *
  * Props-
  * handleLogout: Fn to handle loggin a user out.
- * 
+ *
  * App -> Nav
  */
 
 function Nav({ handleLogout }) {
 
   const { currentUser } = useContext(UserContext);
-
-  console.log("Nav rendering");
 
   return (
     <nav className="nav-bar">

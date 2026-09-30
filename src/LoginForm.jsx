@@ -1,24 +1,25 @@
 import React from "react";
 import { useState } from "react";
-import { useHistory } from 'react-router-dom'
+import useMountedRef from "./useMountedRef";
 
 
 /**
  * Login Form Component
- * 
+ *
  * state:
  * - control component for form
- * 
+ *
  * props:
  * - handleLogin: Fn passed from app to set a new token.
- * 
+ *
  * Routes --> LoginForm
  */
 
 function LoginForm({ handleLogin }) {
-  console.log("LoginForm rendered");
 
-  const history = useHistory();
+  const mounted = useMountedRef();
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formValues, setFormValues] = useState({
     username: "",
@@ -27,12 +28,16 @@ function LoginForm({ handleLogin }) {
 
   async function submitForm(evt) {
     evt.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    setError("");
     try {
       await handleLogin(formValues);
-      history.push('/');
     } catch (err) {
-      alert(err);
-      //CR Set error variable/state. Show in return.
+      if (mounted.current) setError(err.message || "Unable to sign in. Please try again.");
+
+    } finally {
+      if (mounted.current) setIsSubmitting(false);
     }
   }
 
@@ -46,10 +51,12 @@ function LoginForm({ handleLogin }) {
 
   return (
     <form onSubmit={submitForm}>
+      <h1>Log in</h1>
       <label htmlFor="username">Username:</label>
       <input
         id="username"
         name="username"
+        autoComplete="username"
         value={formValues.username}
         onChange={handleChange}
         required
@@ -60,12 +67,14 @@ function LoginForm({ handleLogin }) {
         id="password"
         name="password"
         type="password"
+        autoComplete="current-password"
         value={formValues.password}
         onChange={handleChange}
         required
       />
       <br />
-      <button>Login!</button>
+      <button disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Log in"}</button>
+      {error && <p role="alert">{error}</p>}
     </form>
   )
 }

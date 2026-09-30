@@ -1,114 +1,68 @@
 import axios from "axios";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
+const BASE_URL = (import.meta.env.VITE_API_BASE_URL || "http://localhost:3001").replace(/\/$/, "");
 
-/** API Class.
- *
- * Static class tying together methods used to get/send to to the API.
- * There shouldn't be any frontend-specific stuff here, and there shouldn't
- * be any API-aware stuff elsewhere in the frontend.
- *
- */
-
+/** The single boundary between the React UI and the Jobly REST API. */
 class JoblyApi {
-  // Remember, the backend needs to be authorized with a token
-  // We're providing a token you can use to interact with the backend API
-  // DON'T MODIFY THIS TOKEN
-
-  // static token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-  //   "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-  //   "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
-  static token = "";
-
+  static token = null;
 
   static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
-
-    const url = `${BASE_URL}/${endpoint}`;
-    const headers = { Authorization: `Bearer ${JoblyApi.token}` };
-    const params = (method === "get")
-      ? data
-      : {};
-
+    const headers = JoblyApi.token ? { Authorization: `Bearer ${JoblyApi.token}` } : {};
     try {
-      return (await axios({ url, method, data, params, headers })).data;
+      const response = await axios({
+        url: `${BASE_URL}/${endpoint}`, method, headers, timeout: 15000,
+        ...(method === "get" ? { params: data } : { data }),
+      });
+      return response.data;
     } catch (err) {
-      console.error("API Error:", err.response);
-      let message = err.response.data.error.message;
-      throw Array.isArray(message) ? message : [message];
+      const message = err.response?.data?.error?.message;
+      const error = new Error(
+        Array.isArray(message) ? message.join(" ") :
+          typeof message === "string" ? message :
+            err.response ? "The request failed. Please try again." :
+              "Unable to reach Jobly. Check your connection and try again."
+      );
+      error.status = err.response?.status;
+      throw error;
     }
   }
 
-  // Individual API routes
-
-  /** Login user returns ... */
-
-  static async loginUser(userDetails) {
-    let res = await this.request('auth/token',
-    userDetails,
-    "post"
-    );
-    //Returns JWT Token ""
-    return res.token;
+  static async loginUser(details) {
+    return (await this.request("auth/token", details, "post")).token;
   }
 
-  /** Registers user and returns JWT */
-
-  static async registerUser(userDetails) {
-    let res = await this.request('auth/register',
-      userDetails,
-      "post"
-    );
-    //Returns JWT Token ""
-    return res.token;
+  static async registerUser(details) {
+    return (await this.request("auth/register", details, "post")).token;
   }
-
-  /** Returns infomration about specific user */
 
   static async getUser(username) {
-    let res = await this.request(`users/${username}`);
-    return res.user;
+    return (await this.request(`users/${encodeURIComponent(username)}`)).user;
   }
 
-  /** Get details on a company by handle. */
+  static async updateUser(username, { firstName, lastName, email }) {
+    return (await this.request(`users/${encodeURIComponent(username)}`,
+      { firstName, lastName, email }, "patch")).user;
+  }
 
   static async getCompany(handle) {
-    let res = await this.request(`companies/${handle}`);
-    return res.company;
+    return (await this.request(`companies/${encodeURIComponent(handle)}`)).company;
   }
-
-  // obviously, you'll add a lot here ...
-
-  /** Get every job object */
 
   static async getJobs() {
-    let res = await this.request(`jobs`);
-    return res.jobs;
+    return (await this.request("jobs")).jobs;
   }
 
-  /** Get every job object which matches search param */
-
-  static async jobsSearch(param) {
-    let res = await this.request(`jobs?title=${param}`);
-    return res.jobs;
+  static async jobsSearch(title) {
+    return (await this.request("jobs", title ? { title } : {})).jobs;
   }
-
-  /** Get every company object. */
 
   static async getCompanies() {
-    let res = await this.request(`companies`);
-    return res.companies;
+    return (await this.request("companies")).companies;
   }
 
-  /** Get every company object which matches search param. */
-
-  static async companiesSearch(param) {
-    let res = await this.request(`companies?name=${param}`);
-    return res.companies;
+  static async companiesSearch(name) {
+    return (await this.request("companies", name ? { name } : {})).companies;
   }
-
-  //Create functino for User PATCH request
-
 }
 
 export default JoblyApi;
